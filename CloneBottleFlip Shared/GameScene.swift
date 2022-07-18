@@ -17,6 +17,8 @@ class GameScene: SimpleScene {
     var bottleNode = SKSpriteNode()
     
     var didSwipe = false
+    var start = CGPoint.zero
+    var startTime = TimeInterval()
 
     
   
@@ -90,8 +92,16 @@ class GameScene: SimpleScene {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        //Touch recording touches
+        if touches.count > 1 {
+            return
+        }
     
+        let touch = touches.first
+        let location = touch!.location(in: self) //Xstart
+        
+        start = location
+        startTime = touch!.timestamp
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -108,6 +118,32 @@ class GameScene: SimpleScene {
                 tutorialNode.isHidden = true
                 UserDefaults.standard.set(true, forKey: "tutorialFinished")
                 UserDefaults.standard.synchronize()
+            }
+        }
+        
+        //Bottle fliping logic
+        if !didSwipe {
+            //Speed = distance/time
+            //Distance = sqrt(x * x) + (y*y)
+            //X/Y = Xend - Xstart
+            let touch = touches.first
+            let location = touch?.location(in: self) //Xend
+            
+            let x = ceil(location!.x - start.x)
+            let y = ceil(location!.y - start.y)
+            
+            let distance = sqrt(x*x + y*y)
+            
+            let time = CGFloat(touch!.timestamp - startTime)
+            
+            if (distance >= GAME_SWIPE_MIN_DISTANCE && y > 0) {
+                let speed = distance/time
+                if speed >= GAME_SWIPE_MIN_SPEED {
+                    //Add angular velocity impuls
+                    bottleNode.physicsBody?.angularVelocity = GAME_ANGULAR_VELOCITY
+                    bottleNode.physicsBody?.applyImpulse(CGVector(dx: 0, dy: distance * GAME_DISTACE_MULTIPLIER))
+                    didSwipe = true
+                }
             }
         }
     }
