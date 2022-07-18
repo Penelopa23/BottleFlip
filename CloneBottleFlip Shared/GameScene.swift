@@ -15,6 +15,8 @@ class GameScene: SimpleScene {
     var resetButtonNode = SKSpriteNode()
     var tutorialNode = SKSpriteNode()
     var bottleNode = SKSpriteNode()
+    
+    var didSwipe = false
 
     
   
@@ -48,17 +50,17 @@ class GameScene: SimpleScene {
         self.addChild(resetButtonNode)
         
         //Tutorial button
-        let tutorialFinished = UserDefaults.standard.bool(forKey: "tutorialFinished")
-        tutorialNode = ButtonNode(imageNode: "tutorial", position: CGPoint(x: self.frame.midX, y: self.frame.midY), xScale: 0.65, yScale: 0.65)
-        tutorialNode.zPosition = 5
-        tutorialNode.isHidden = tutorialFinished
-        self.addChild(tutorialNode)
+       // let tutorialFinished = UserDefaults.standard.bool(forKey: "tutorialFinished")
+        //tutorialNode = ButtonNode(imageNode: "tutorial", position: CGPoint(x: self.frame.midX, y: self.frame.midY), xScale: 0.65, yScale: 0.65)
+       // tutorialNode.zPosition = 5
+        //tutorialNode.isHidden = tutorialFinished
+        //self.addChild(tutorialNode)
     }
     
     func setupGameNodes() {
         
         //Table node
-        let tableNode = ButtonNode(imageNode: "table", position: CGPoint(x: self.frame.midX, y: self.frame.minY + 29), xScale: 2.3, yScale: 2.3)
+        let tableNode = ButtonNode(imageNode: "table", position: CGPoint(x: self.frame.midX, y: self.frame.minY + 29), xScale: 1.8, yScale: 1.8)
         tableNode.zPosition = 3
         tableNode.physicsBody = SKPhysicsBody(rectangleOf: (tableNode.texture?.size())!)
         //let tableNode = SKSpriteNode(fileNamed: "table")
@@ -95,13 +97,34 @@ class GameScene: SimpleScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
+            if backButtonNOde.contains(location) {
+                self.changeToSceneBy(nameScene: "MenuScene", userData: NSMutableDictionary.init())
+            }
             
+            if resetButtonNode.contains(location) {
+                failedFlip()
+            }
             if tutorialNode.contains(location) {
                 tutorialNode.isHidden = true
                 UserDefaults.standard.set(true, forKey: "tutorialFinished")
                 UserDefaults.standard.synchronize()
             }
         }
+    }
+    
+    func failedFlip() {
+        //Failed flip, reset score and bottle
+        self.resetBottle()
+    }
+    
+    func resetBottle() {
+        //Reset bottle after failed or successful flip
+        bottleNode.position = CGPoint(x: self.frame.midX, y: bottleNode.size.height)
+        bottleNode.physicsBody?.angularVelocity = 0
+        bottleNode.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+        bottleNode.speed = 0
+        bottleNode.zRotation = 0
+        didSwipe = false
     }
 }
 
