@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Sprite</key>
+		<string>bottle</string>
+		<key>Mass</key>
+		<real>0.95</real>
+		<key>XScale</key>
+		<integer>1</integer>
+		<key>YScale</key>
+		<integer>1</integer>
+		<key>Restitution</key>
+		<integer>0</integer>
+		<key>MinFlips</key>
+		<integer>0</integer>
+	</dict>
+	<dict>
+		<key>Sprite</key>
+		<string>bottle_poison</string>
+		<key>Mass</key>
+		<real>1.2</real>
+		<key>XScale</key>
+		<integer>1</integer>
+		<key>YScale</key>
+		<integer>1</integer>
+		<key>Restitution</key>
+		<integer>0</integer>
+		<key>MinFlips</key>
+		<integer>5</integer>
+	</dict>
+	<dict>
+		<key>Sprite</key>
+		<string>bottle_conjak</string>
+		<key>Mass</key>
+		<integer>1</integer>
+		<key>XScale</key>
+		<integer>1</integer>
+		<key>YScale</key>
+		<integer>1</integer>
+		<key>Restitution</key>
+		<integer>0</integer>
+		<key>MinFlips</key>
+		<integer>10</integer>
+	</dict>
+	<dict>
+		<key>Sprite</key>
+		<string>bottle_reuse</string>
+		<key>Mass</key>
+		<real>0</real>
+		<key>XScale</key>
+		<integer>1</integer>
+		<key>YScale</key>
+		<integer>1</integer>
+		<key>Restitution</key>
+		<integer>0</integer>
+		<key>MinFlips</key>
+		<integer>15</integer>
+	</dict>
+</array>
+</plist>
