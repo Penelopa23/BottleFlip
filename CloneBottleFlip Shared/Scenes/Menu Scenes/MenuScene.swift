@@ -24,6 +24,8 @@ class MenuScene: SimpleScene {
     var totalBottles = 0;
     var isShopButton = false
     
+    var popSound = SKAction()
+    
     override func didMove(to view: SKView) {
         self.backgroundColor = UI_BACKGROUND_COLOR
         
@@ -34,6 +36,9 @@ class MenuScene: SimpleScene {
         //Get total flips
         highScore = UserDefaults.standard.integer(forKey: "localHighscore")
         totalFlips = UserDefaults.standard.integer(forKey: "flips")
+        
+        popSound = SKAction.playSoundFileNamed(GAME_SOUND_POP, waitForCompletion: false)
+        
         
         setupUI()
     }
@@ -155,10 +160,12 @@ class MenuScene: SimpleScene {
             
             //Play button is pressed
             if playButtonNode.contains(location){
+                self.playSoundFX(popSound)
                 self.startGame()
             }
             //Left button
             if leftButtonNode.contains(location) {
+                self.playSoundFX(popSound)
                 let prevIndex = selectedBottleIndex - 1
                 if prevIndex >= 0 {
                     self.updateByIndex(prevIndex)
@@ -166,6 +173,7 @@ class MenuScene: SimpleScene {
             }
             
             if rightButtonNode.contains(location) {
+                self.playSoundFX(popSound)
                 let nextIndex = selectedBottleIndex + 1
                 if nextIndex < totalBottles {
                     self.updateByIndex(nextIndex)

@@ -18,4 +18,8 @@ class SimpleScene: SKScene {
         scene.userData = userData
         self.view?.presentScene(scene, transition: transition)
     }
+    
+    func playSoundFX(_ action: SKAction) {
+        self.run(action)
+    }
 }

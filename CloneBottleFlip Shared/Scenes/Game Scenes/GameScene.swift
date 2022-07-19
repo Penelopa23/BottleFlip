@@ -21,13 +21,21 @@ class GameScene: SimpleScene {
     var startTime = TimeInterval()
     var currentScore = 0
 
-    
+    var popSound = SKAction()
+    var failSound = SKAction()
+    var winSound = SKAction()
+    var numberOfTaps = 0
   
 
     override func didMove(to view: SKView) {
         //Setting the scene
         self.physicsBody?.restitution = 0
         self.backgroundColor = UI_BACKGROUND_COLOR
+        
+        popSound = SKAction.playSoundFileNamed(GAME_SOUND_POP, waitForCompletion: false)
+        failSound = SKAction.playSoundFileNamed(GAME_SOUND_FAIL, waitForCompletion: false)
+        winSound = SKAction.playSoundFileNamed(GAME_SOUND_WIN, waitForCompletion: false)
+        
         
         self.setupUINodes()
         self.setupGameNodes()
@@ -85,6 +93,7 @@ class GameScene: SimpleScene {
         bottleNode = BottleNode(selectedBottle as! Bottle)
         self.addChild(bottleNode)
         
+        self.resetBottle()
         
     }
 
@@ -104,11 +113,14 @@ class GameScene: SimpleScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
-            if backButtonNOde.contains(location) {
+            
+            if backButtonNOde.contains(location){
+                self.playSoundFX(popSound)
                 self.changeToSceneBy(nameScene: "MenuScene", userData: NSMutableDictionary.init())
             }
             
             if resetButtonNode.contains(location) {
+                self.playSoundFX(popSound)
                 failedFlip()
             }
             if tutorialNode.contains(location) {
@@ -148,13 +160,14 @@ class GameScene: SimpleScene {
     func failedFlip() {
         //Failed flip, reset score and bottle
         currentScore = 0
-        
+        self.playSoundFX(failSound)
         self.updateScore()
         self.resetBottle()
     }
     
     func resetBottle() {
         //Reset bottle after failed or successful flip
+        self.playSoundFX(popSound)
         bottleNode.position = CGPoint(x: self.frame.midX, y: self.frame.minY + bottleNode.size.height/2 + 94)
         bottleNode.physicsBody!.angularVelocity = 0
         bottleNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
@@ -170,7 +183,6 @@ class GameScene: SimpleScene {
     
     func checkIfSuccessfulFlip() {
         if (bottleNode.position.x <= 0 || bottleNode.position.x >= self.frame.size.width || bottleNode.position.y <= 0) {
-            self.updateFlips()
             self.failedFlip()
         }
         
@@ -188,6 +200,7 @@ class GameScene: SimpleScene {
     func successFlip() {
         //Success fliped, so update scores and reset bottle
         currentScore += 1
+        self.playSoundFX(winSound)
         self.updateFlips()
         self.updateScore()
         self.resetBottle()
@@ -221,4 +234,3 @@ class GameScene: SimpleScene {
         UserDefaults.standard.synchronize()
     }
 }
-
