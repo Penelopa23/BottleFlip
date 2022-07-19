@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E0BA4A128868EE70011595A /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9E0BA4A028868EE70011595A /* win.wav */; };
+		9E0BA4A328868F740011595A /* pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9E0BA4A228868F740011595A /* pop.wav */; };
+		9E0BA4A528868F920011595A /* fail.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9E0BA4A428868F920011595A /* fail.mp3 */; };
 		9EE4E80C2883D8F600AB4B68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE4E80B2883D8F600AB4B68 /* AppDelegate.swift */; };
 		9EE4E80E2883D8F600AB4B68 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE4E80D2883D8F600AB4B68 /* GameViewController.swift */; };
 		9EE4E8112883D8F600AB4B68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EE4E80F2883D8F600AB4B68 /* Main.storyboard */; };
@@ -27,6 +30,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9E0BA4A028868EE70011595A /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win.wav; sourceTree = "<group>"; };
+		9E0BA4A228868F740011595A /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
+		9E0BA4A428868F920011595A /* fail.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fail.mp3; sourceTree = "<group>"; };
 		9EE4E8012883D8F500AB4B68 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		9EE4E8022883D8F500AB4B68 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		9EE4E8032883D8F600AB4B68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,11 +64,119 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E0BA49328868CC80011595A /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				9EE4E82E28858C6700AB4B68 /* SimpleScene.swift */,
+				9E0BA49428868CFC0011595A /* Game Scenes */,
+				9E0BA49528868DC70011595A /* Menu Scenes */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		9E0BA49428868CFC0011595A /* Game Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				9EE4E8012883D8F500AB4B68 /* GameScene.sks */,
+				9EE4E8022883D8F500AB4B68 /* GameScene.swift */,
+			);
+			path = "Game Scenes";
+			sourceTree = "<group>";
+		};
+		9E0BA49528868DC70011595A /* Menu Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				9EE4E81E2883DD6100AB4B68 /* MenuScene.swift */,
+				9EE4E8202883DD9100AB4B68 /* MenuScene.sks */,
+			);
+			path = "Menu Scenes";
+			sourceTree = "<group>";
+		};
+		9E0BA49628868DDA0011595A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9EE4E82A28853B3500AB4B68 /* Bottle.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9E0BA49728868DF00011595A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9EE4E82C28853D3000AB4B68 /* BottleController.swift */,
+				9EE4E80D2883D8F600AB4B68 /* GameViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9E0BA49828868DFC0011595A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9EE4E828288538B600AB4B68 /* items.plist */,
+				9E0BA49F28868ECF0011595A /* Sounds */,
+				9EE4E8032883D8F600AB4B68 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9E0BA49928868E370011595A /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				9E0BA49A28868E470011595A /* UI Nodes */,
+				9E0BA49B28868E560011595A /* Game Nodes */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
+		9E0BA49A28868E470011595A /* UI Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				9EE4E8302885B08C00AB4B68 /* BottleNode.swift */,
+				9EE4E8222884327A00AB4B68 /* ButtonNode.swift */,
+			);
+			path = "UI Nodes";
+			sourceTree = "<group>";
+		};
+		9E0BA49B28868E560011595A /* Game Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				9EE4E824288438BA00AB4B68 /* LabelNode.swift */,
+			);
+			path = "Game Nodes";
+			sourceTree = "<group>";
+		};
+		9E0BA49C28868E630011595A /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				9E0BA49D28868E7C0011595A /* Views */,
+				9EE4E826288439DE00AB4B68 /* Constants.swift */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
+		9E0BA49D28868E7C0011595A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9EE4E80F2883D8F600AB4B68 /* Main.storyboard */,
+				9EE4E8122883D8F600AB4B68 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9E0BA49F28868ECF0011595A /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				9E0BA4A428868F920011595A /* fail.mp3 */,
+				9E0BA4A228868F740011595A /* pop.wav */,
+				9E0BA4A028868EE70011595A /* win.wav */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		9EE4E7FA2883D8F500AB4B68 = {
 			isa = PBXGroup;
 			children = (
 				9EE4E7FF2883D8F500AB4B68 /* CloneBottleFlip Shared */,
-				9EE4E80A2883D8F600AB4B68 /* CloneBottleFlip iOS */,
 				9EE4E8092883D8F600AB4B68 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,19 +184,13 @@
 		9EE4E7FF2883D8F500AB4B68 /* CloneBottleFlip Shared */ = {
 			isa = PBXGroup;
 			children = (
-				9EE4E8012883D8F500AB4B68 /* GameScene.sks */,
-				9EE4E82A28853B3500AB4B68 /* Bottle.swift */,
-				9EE4E82C28853D3000AB4B68 /* BottleController.swift */,
-				9EE4E8022883D8F500AB4B68 /* GameScene.swift */,
-				9EE4E8302885B08C00AB4B68 /* BottleNode.swift */,
-				9EE4E828288538B600AB4B68 /* items.plist */,
-				9EE4E824288438BA00AB4B68 /* LabelNode.swift */,
-				9EE4E81E2883DD6100AB4B68 /* MenuScene.swift */,
-				9EE4E82E28858C6700AB4B68 /* SimpleScene.swift */,
-				9EE4E826288439DE00AB4B68 /* Constants.swift */,
-				9EE4E8202883DD9100AB4B68 /* MenuScene.sks */,
-				9EE4E8032883D8F600AB4B68 /* Assets.xcassets */,
-				9EE4E8222884327A00AB4B68 /* ButtonNode.swift */,
+				9E0BA49828868DFC0011595A /* Resources */,
+				9EE4E80B2883D8F600AB4B68 /* AppDelegate.swift */,
+				9E0BA49328868CC80011595A /* Scenes */,
+				9E0BA49628868DDA0011595A /* Model */,
+				9E0BA49728868DF00011595A /* Controllers */,
+				9E0BA49928868E370011595A /* Nodes */,
+				9E0BA49C28868E630011595A /* Configs */,
 			);
 			path = "CloneBottleFlip Shared";
 			sourceTree = "<group>";
@@ -93,17 +201,6 @@
 				9EE4E8082883D8F600AB4B68 /* CloneBottleFlip.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		9EE4E80A2883D8F600AB4B68 /* CloneBottleFlip iOS */ = {
-			isa = PBXGroup;
-			children = (
-				9EE4E80B2883D8F600AB4B68 /* AppDelegate.swift */,
-				9EE4E80D2883D8F600AB4B68 /* GameViewController.swift */,
-				9EE4E80F2883D8F600AB4B68 /* Main.storyboard */,
-				9EE4E8122883D8F600AB4B68 /* LaunchScreen.storyboard */,
-			);
-			path = "CloneBottleFlip iOS";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,7 +265,10 @@
 				9EE4E8112883D8F600AB4B68 /* Main.storyboard in Resources */,
 				9EE4E8142883D8F600AB4B68 /* LaunchScreen.storyboard in Resources */,
 				9EE4E8212883DD9100AB4B68 /* MenuScene.sks in Resources */,
+				9E0BA4A328868F740011595A /* pop.wav in Resources */,
+				9E0BA4A128868EE70011595A /* win.wav in Resources */,
 				9EE4E8182883D8F600AB4B68 /* Assets.xcassets in Resources */,
+				9E0BA4A528868F920011595A /* fail.mp3 in Resources */,
 				9EE4E829288538B600AB4B68 /* items.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
