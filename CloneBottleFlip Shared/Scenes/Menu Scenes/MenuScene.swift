@@ -30,6 +30,11 @@ class MenuScene: SimpleScene {
         //Loading bottles from items.plist
         bottles = BottleController.readItems()
         totalBottles = bottles.count
+        
+        //Get total flips
+        highScore = UserDefaults.standard.integer(forKey: "localHighscore")
+        totalFlips = UserDefaults.standard.integer(forKey: "flips")
+        
         setupUI()
     }
     

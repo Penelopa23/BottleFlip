@@ -6,7 +6,7 @@
 		<key>Sprite</key>
 		<string>bottle</string>
 		<key>Mass</key>
-		<real>0.95</real>
+		<real>0.5</real>
 		<key>XScale</key>
 		<integer>1</integer>
 		<key>YScale</key>
@@ -20,7 +20,7 @@
 		<key>Sprite</key>
 		<string>bottle_poison</string>
 		<key>Mass</key>
-		<real>1.2</real>
+		<real>0.85</real>
 		<key>XScale</key>
 		<integer>1</integer>
 		<key>YScale</key>
@@ -48,7 +48,7 @@
 		<key>Sprite</key>
 		<string>bottle_reuse</string>
 		<key>Mass</key>
-		<real>0</real>
+		<real>0.6</real>
 		<key>XScale</key>
 		<integer>1</integer>
 		<key>YScale</key>

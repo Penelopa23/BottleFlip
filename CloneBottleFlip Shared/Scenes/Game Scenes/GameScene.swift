@@ -10,7 +10,7 @@ import SpriteKit
 class GameScene: SimpleScene {
     
     var scoreLabelNode = SKLabelNode()
-    var highscoreLaabelNode = SKLabelNode()
+    var highscoreLabelNode = SKLabelNode()
     var backButtonNOde = SKSpriteNode()
     var resetButtonNode = SKSpriteNode()
     var tutorialNode = SKSpriteNode()
@@ -19,6 +19,7 @@ class GameScene: SimpleScene {
     var didSwipe = false
     var start = CGPoint.zero
     var startTime = TimeInterval()
+    var currentScore = 0
 
     
   
@@ -39,9 +40,10 @@ class GameScene: SimpleScene {
         self.addChild(scoreLabelNode)
         
         //High score label node
-        highscoreLaabelNode = LabelNode(text: "New Result", fontSize: 32, position: CGPoint(x: self.frame.midX, y: self.frame.midY - 40), fontColor: UIColor.green)
-        highscoreLaabelNode.zPosition = -1
-        self.addChild(highscoreLaabelNode)
+        highscoreLabelNode = LabelNode(text: "New Result", fontSize: 32, position: CGPoint(x: self.frame.midX, y: self.frame.midY - 40), fontColor: UIColor.green)
+        highscoreLabelNode.isHidden = true
+        highscoreLabelNode.zPosition = -1
+        self.addChild(highscoreLabelNode)
         
         //Back button node
         backButtonNOde = ButtonNode(imageNode: "back_button", position: CGPoint(x: self.frame.minX + backButtonNOde.size.width + 30, y: self.frame.maxY - backButtonNOde.size.height - 40), xScale: 0.65, yScale: 0.65)
@@ -62,17 +64,17 @@ class GameScene: SimpleScene {
     func setupGameNodes() {
         
         //Table node
-        let tableNode = ButtonNode(imageNode: "table", position: CGPoint(x: self.frame.midX, y: self.frame.minY + 29), xScale: 1.8, yScale: 1.8)
-        tableNode.zPosition = 3
+        let tableNode = SKSpriteNode(imageNamed: "table")
+        //tableNode.zPosition = 3
         tableNode.physicsBody = SKPhysicsBody(rectangleOf: (tableNode.texture?.size())!)
         //let tableNode = SKSpriteNode(fileNamed: "table")
         //tableNode?.physicsBody = SKPhysicsBody(rectangleOf: (tableNode!.texture?.size())!)
         tableNode.physicsBody?.affectedByGravity = false
         tableNode.physicsBody?.isDynamic = false
         tableNode.physicsBody?.restitution = 0
-        tableNode.xScale = 0.45
-        tableNode.yScale = 0.45
-        tableNode.position = CGPoint(x: self.frame.midX, y: 29)
+        tableNode.xScale = 2.3
+        tableNode.yScale = 2.3
+        tableNode.position = CGPoint(x: self.frame.midX, y: self.frame.minY + 29)
         //self.addChild(tableNode)
        
         
@@ -84,11 +86,6 @@ class GameScene: SimpleScene {
         self.addChild(bottleNode)
         
         
-    }
-   
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -140,8 +137,8 @@ class GameScene: SimpleScene {
                 let speed = distance/time
                 if speed >= GAME_SWIPE_MIN_SPEED {
                     //Add angular velocity impuls
-                    bottleNode.physicsBody?.angularVelocity = GAME_ANGULAR_VELOCITY
-                    bottleNode.physicsBody?.applyImpulse(CGVector(dx: 0, dy: distance * GAME_DISTACE_MULTIPLIER))
+                    bottleNode.physicsBody?.angularVelocity = speed/100
+                    bottleNode.physicsBody?.applyImpulse(CGVector(dx: 0, dy: distance + GAME_DISTACE_MULTIPLIER))
                     didSwipe = true
                 }
             }
@@ -150,17 +147,78 @@ class GameScene: SimpleScene {
     
     func failedFlip() {
         //Failed flip, reset score and bottle
+        currentScore = 0
+        
+        self.updateScore()
         self.resetBottle()
     }
     
     func resetBottle() {
         //Reset bottle after failed or successful flip
-        bottleNode.position = CGPoint(x: self.frame.midX, y: bottleNode.size.height)
-        bottleNode.physicsBody?.angularVelocity = 0
-        bottleNode.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+        bottleNode.position = CGPoint(x: self.frame.midX, y: self.frame.minY + bottleNode.size.height/2 + 94)
+        bottleNode.physicsBody!.angularVelocity = 0
+        bottleNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
         bottleNode.speed = 0
         bottleNode.zRotation = 0
         didSwipe = false
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        
+        self.checkIfSuccessfulFlip()
+    }
+    
+    func checkIfSuccessfulFlip() {
+        if (bottleNode.position.x <= 0 || bottleNode.position.x >= self.frame.size.width || bottleNode.position.y <= 0) {
+            self.updateFlips()
+            self.failedFlip()
+        }
+        
+        if (didSwipe == true && bottleNode.physicsBody!.isResting) {
+            let bottleRotation = abs(bottleNode.zRotation)
+            
+            if bottleRotation > 0 && bottleRotation < 0.05 {
+                self.successFlip()
+            }else{
+                self.failedFlip()
+            }
+        }
+    }
+    
+    func successFlip() {
+        //Success fliped, so update scores and reset bottle
+        currentScore += 1
+        self.updateFlips()
+        self.updateScore()
+        self.resetBottle()
+    }
+    
+    func updateScore() {
+        //Updating score based on flips and saving highscore
+        scoreLabelNode.text = "\(currentScore)"
+        
+        let localHighscore = UserDefaults.standard.integer(forKey: "localHighscore")
+        if currentScore > localHighscore {
+            highscoreLabelNode.isHidden = false
+            
+            let fadeAction = SKAction.fadeAlpha(to: 0, duration: 5.0)
+            
+            highscoreLabelNode.run(fadeAction, completion: {
+                self.highscoreLabelNode.isHidden = true
+            })
+            
+            UserDefaults.standard.set(currentScore, forKey: "localHighscore")
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    func updateFlips() {
+        //Update total flips
+        var flips = UserDefaults.standard.integer(forKey: "flips")
+        
+        flips += 1
+        UserDefaults.standard.set(flips, forKey: "flips")
+        UserDefaults.standard.synchronize()
     }
 }
 

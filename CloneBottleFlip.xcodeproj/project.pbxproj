@@ -184,8 +184,8 @@
 		9EE4E7FF2883D8F500AB4B68 /* CloneBottleFlip Shared */ = {
 			isa = PBXGroup;
 			children = (
-				9E0BA49828868DFC0011595A /* Resources */,
 				9EE4E80B2883D8F600AB4B68 /* AppDelegate.swift */,
+				9E0BA49828868DFC0011595A /* Resources */,
 				9E0BA49328868CC80011595A /* Scenes */,
 				9E0BA49628868DDA0011595A /* Model */,
 				9E0BA49728868DF00011595A /* Controllers */,
