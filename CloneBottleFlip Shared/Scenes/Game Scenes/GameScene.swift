@@ -15,6 +15,7 @@ class GameScene: SimpleScene {
     var resetButtonNode = SKSpriteNode()
     var tutorialNode = SKSpriteNode()
     var bottleNode = SKSpriteNode()
+    var tableNode = SKSpriteNode()
     
     var didSwipe = false
     var start = CGPoint.zero
@@ -25,6 +26,7 @@ class GameScene: SimpleScene {
     var failSound = SKAction()
     var winSound = SKAction()
     var numberOfTaps = 0
+    var resetScore = 0;
   
 
     override func didMove(to view: SKView) {
@@ -72,7 +74,7 @@ class GameScene: SimpleScene {
     func setupGameNodes() {
         
         //Table node
-        let tableNode = SKSpriteNode(imageNamed: "table")
+        tableNode = SKSpriteNode(imageNamed: "table")
         //tableNode.zPosition = 3
         tableNode.physicsBody = SKPhysicsBody(rectangleOf: (tableNode.texture?.size())!)
         //let tableNode = SKSpriteNode(fileNamed: "table")
@@ -102,12 +104,25 @@ class GameScene: SimpleScene {
         if touches.count > 1 {
             return
         }
+        
+        
     
         let touch = touches.first
         let location = touch!.location(in: self) //Xstart
         
         start = location
         startTime = touch!.timestamp
+        
+        //resetScore
+        if tableNode.contains(location) {
+            resetScore += 1
+            if resetScore > 5 {
+                UserDefaults.standard.set(0, forKey: "localHighscore")
+                UserDefaults.standard.set(0, forKey: "flips")
+                UserDefaults.standard.synchronize()
+                resetScore = 0
+            }
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -128,7 +143,11 @@ class GameScene: SimpleScene {
                 UserDefaults.standard.set(true, forKey: "tutorialFinished")
                 UserDefaults.standard.synchronize()
             }
+            
+            
         }
+        
+       
         
         //Bottle fliping logic
         if !didSwipe {
@@ -156,6 +175,8 @@ class GameScene: SimpleScene {
             }
         }
     }
+    
+ 
     
     func failedFlip() {
         //Failed flip, reset score and bottle
