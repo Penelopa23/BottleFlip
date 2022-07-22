@@ -17,6 +17,7 @@ class GameScene: SimpleScene {
     var bottleNode = SKSpriteNode()
     var tableNode = SKSpriteNode()
     
+    var touchBottle = false
     var didSwipe = false
     var start = CGPoint.zero
     var startTime = TimeInterval()
@@ -106,13 +107,14 @@ class GameScene: SimpleScene {
         }
         
         
-    
-        let touch = touches.first
-        let location = touch!.location(in: self) //Xstart
         
+        let touch = touches.first
+        let location = touch!.location(in: self)//Xstart
+        touchBottle = bottleNode.contains(location)
+        if touchBottle {
         start = location
         startTime = touch!.timestamp
-        
+        }
         //resetScore
         if tableNode.contains(location) {
             resetScore += 1
@@ -136,27 +138,24 @@ class GameScene: SimpleScene {
             
             if resetButtonNode.contains(location) {
                 self.playSoundFX(popSound)
-                failedFlip()
+                resetBottle()
             }
             if tutorialNode.contains(location) {
                 tutorialNode.isHidden = true
                 UserDefaults.standard.set(true, forKey: "tutorialFinished")
                 UserDefaults.standard.synchronize()
             }
-            
-            
         }
         
        
         
         //Bottle fliping logic
-        if !didSwipe {
+        if !didSwipe && touchBottle {
             //Speed = distance/time
             //Distance = sqrt(x * x) + (y*y)
             //X/Y = Xend - Xstart
             let touch = touches.first
             let location = touch?.location(in: self) //Xend
-            
             let x = ceil(location!.x - start.x)
             let y = ceil(location!.y - start.y)
             
@@ -169,14 +168,13 @@ class GameScene: SimpleScene {
                 if speed >= GAME_SWIPE_MIN_SPEED {
                     //Add angular velocity impuls
                     bottleNode.physicsBody?.angularVelocity = speed/100
-                    bottleNode.physicsBody?.applyImpulse(CGVector(dx: 0, dy: distance + GAME_DISTACE_MULTIPLIER))
+                    bottleNode.physicsBody?.applyImpulse(CGVector(dx: x, dy: distance + GAME_DISTACE_MULTIPLIER))
                     didSwipe = true
                 }
             }
         }
     }
     
- 
     
     func failedFlip() {
         //Failed flip, reset score and bottle
@@ -188,7 +186,6 @@ class GameScene: SimpleScene {
     
     func resetBottle() {
         //Reset bottle after failed or successful flip
-        self.playSoundFX(popSound)
         bottleNode.position = CGPoint(x: self.frame.midX, y: self.frame.minY + bottleNode.size.height/2 + 94)
         bottleNode.physicsBody!.angularVelocity = 0
         bottleNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
